@@ -32,7 +32,7 @@ function createImportMap(parameters) {
   });
 
   function createImportMapFile() {
-    const dictstring = JSON.stringify(jsObjectLocations);
+    const dictstring = JSON.stringify(importMap);
     console.log(dictstring);
 
     fs.writeFile("importmap.json", dictstring, function (err, result) {
