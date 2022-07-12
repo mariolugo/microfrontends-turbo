@@ -38,3 +38,9 @@ jobs:
           aws_bucket: mftest-mario
           source_dir: "dist"
           destination_dir: "microfrontend"
+
+      - name: After deploy
+        run: |
+          chmod +x ./after_deploy.sh
+          ./after_deploy.sh
+        shell: bash
