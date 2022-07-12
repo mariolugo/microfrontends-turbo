@@ -42,5 +42,5 @@ jobs:
       - name: After deploy
         run: |
           chmod +x ./after_deploy.sh
-          ./after_deploy.sh
+          ./after_deploy.sh ${{steps.S3.outputs.object_key}} ${{steps.S3.outputs.object_locations}}
         shell: bash
