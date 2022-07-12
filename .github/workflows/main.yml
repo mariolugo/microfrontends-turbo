@@ -11,6 +11,11 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
+      - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+
       - uses: actions/checkout@v2
       - uses: borales/actions-yarn@v3.0.0
         with:
@@ -19,6 +24,15 @@ jobs:
       - uses: borales/actions-yarn@v3.0.0
         with:
           cmd: build # will run `yarn build` command
+      
+      - name: create dist
+      - run: mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/
+
+      - name: create projects folders
+      - run: mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/root-config && mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/app1 && mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/app2
+
+      - name: copy everything to dist
+      - run: mv ./packages/root-config/dist/*.* ./dist/${{ steps.extract_branch.outputs.branch }}/root-config && mv ./packages/app1/dist/*.* ./dist/${{ steps.extract_branch.outputs.branch }}/app1 && mv ./packages/app2/dist/*.* ./dist/${{ steps.extract_branch.outputs.branch }}/app2
 
       - uses: shallwefootball/s3-upload-action@master
         name: Upload S3
@@ -26,5 +40,5 @@ jobs:
         with:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: "static"
+          aws_bucket: mftest-mario
+          source_dir: "dist"
