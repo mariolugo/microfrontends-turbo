@@ -10,13 +10,10 @@
   "scripts": {
     "prodstart": "yarn worspace @mftest/root-config run prod",
     "start": "turbo run start --parallel",
-    "root:start": "turbo run build --filter=root",
-    "app1:start": "turbo run build --filter=app1",
-    "app2:start": "turbo run build --filter=app2",
     "build": "turbo run build --parallel",
-    "root:build": "",
-    "app1:build": "",
-    "app2:build": "",
+    "root:build": "turbo run build --filter=root",
+    "app1:build": "turbo run build --filter=app1",
+    "app2:build": "turbo run build --filter=app2",
     "prepare": "husky install"
   },
   "devDependencies": {

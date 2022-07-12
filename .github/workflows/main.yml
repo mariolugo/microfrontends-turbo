@@ -4,7 +4,6 @@ name: Deploy applications to s34
 
 # Controls when the workflow will run
 
-
 on: [pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -12,18 +11,15 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
       - uses: actions/checkout@v2
       - uses: borales/actions-yarn@v3.0.0
         with:
           cmd: install # will run `yarn install` command
-      
-      - name: build
+
       - uses: borales/actions-yarn@v3.0.0
         with:
           cmd: build # will run `yarn build` command
-      
-      - name: upload to s3
+
       - uses: shallwefootball/s3-upload-action@master
         name: Upload S3
         id: S3
@@ -31,4 +27,4 @@ jobs:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: 'static'
+          source_dir: "static"
