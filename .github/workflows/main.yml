@@ -60,6 +60,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"
           aws-bucket: mftest-mario
-          destination-dir: "microfrontend/${{ github.event.pull_request.number }}/"
+          bucket-root: "microfrontend"
+          destination-dir: "${{ github.event.pull_request.number }}/"
           file-path: "./importmap.json"
           output-file-url: "true" # specify true
