@@ -10,6 +10,8 @@ on: [pull_request]
 jobs:
   preview:
     runs-on: ubuntu-latest
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
     steps:
       - name: create dist
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/
@@ -23,7 +25,7 @@ jobs:
           cache: "yarn"
 
       - run: yarn install
-      - run: PR_NUMBER=${{ github.event.pull_request.number }} yarn build
+      - run: yarn build
 
       - name: create projects folders
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/root-config && mkdir -p ./dist/${{ github.event.pull_request.number }}/app1 && mkdir -p ./dist/${{ github.event.pull_request.number }}/app2
