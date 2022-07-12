@@ -6,6 +6,7 @@ import {
 } from "single-spa-layout";
 import microfrontendLayout from "./microfrontend-layout.html";
 
+console.log("process", process.env.PR_NUMBER);
 const routes = constructRoutes(microfrontendLayout);
 const applications = constructApplications({
   routes,
