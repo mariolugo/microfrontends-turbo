@@ -2,6 +2,7 @@
   "name": "@mftest/root-config",
   "version": "1.0.0",
   "scripts": {
+    "prod": "node server.js",
     "start": "webpack serve --port 9000 --env isLocal",
     "lint": "eslint src --ext js",
     "test": "cross-env BABEL_ENV=test jest --passWithNoTests",

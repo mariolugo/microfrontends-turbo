@@ -8,6 +8,7 @@
     "packages/*"
   ],
   "scripts": {
+    "prodstart": "yarn worspace @mftest/root-config run prod",
     "start": "turbo run start --parallel",
     "root:start": "turbo run build --filter=root",
     "app1:start": "turbo run build --filter=app1",
