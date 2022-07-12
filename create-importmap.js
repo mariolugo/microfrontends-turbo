@@ -28,7 +28,7 @@ const createImportMap = (parameters) => {
   apps.forEach((app) => {
     const map = jsObjectLocations.find((location) => location.includes(app));
     if (map) {
-      importMap[`${space}/app`] = map;
+      importMap.imports[`${space}/${app}`] = map;
     }
   });
 
