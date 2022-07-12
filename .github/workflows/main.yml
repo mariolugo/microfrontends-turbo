@@ -23,7 +23,7 @@ jobs:
           cache: "yarn"
 
       - run: yarn install
-      - run: yarn build
+      - run: PR_NUMBER=${{ github.event.pull_request.number }} yarn build
 
       - name: create projects folders
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/root-config && mkdir -p ./dist/${{ github.event.pull_request.number }}/app1 && mkdir -p ./dist/${{ github.event.pull_request.number }}/app2

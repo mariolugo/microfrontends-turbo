@@ -1,10 +1,10 @@
-const fs = require('fs');
+const fs = require("fs");
 
 const space = "@mftest";
 const apps = ["root-config", "app1", "app2"];
 
 const args = process.argv.slice(2);
-const createImportMap = await (parameters) => {
+function createImportMap(parameters) {
   console.log("params", parameters);
   const objectKey = parameters[0];
   const objectLocations = parameters[1].replace(/\[|\]/g, "").split(",");
@@ -31,18 +31,17 @@ const createImportMap = await (parameters) => {
     }
   });
 
-  const createImportMapFile = async () => {
+  function createImportMapFile() {
     const dictstring = JSON.stringify(jsObjectLocations);
     console.log(dictstring);
-    await fs.writeFile("importmap.json", dictstring);
-  };
+    fs.writeFile("importmap.json", dictstring);
+  }
 
-  await createImportMapFile();
+  createImportMapFile();
 
-  console.log('CREATED FILE');
+  console.log("CREATED FILE");
 
   return true;
-
-};
+}
 
 createImportMap(args);
