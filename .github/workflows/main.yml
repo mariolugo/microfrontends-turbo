@@ -25,13 +25,13 @@ jobs:
           cmd: build # will run `yarn build` command
 
       - name: create dist
-      - run: mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/
+        run: mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/
 
       - name: create projects folders
-      - run: mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/root-config && mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/app1 && mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/app2
+        run: mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/root-config && mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/app1 && mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/app2
 
       - name: copy everything to dist
-      - run: mv ./packages/root-config/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/root-config && mv ./packages/app1/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/app1 && mv ./packages/app2/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/app2
+        run: mv ./packages/root-config/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/root-config && mv ./packages/app1/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/app1 && mv ./packages/app2/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/app2
 
       - uses: shallwefootball/s3-upload-action@master
         name: Upload S3
