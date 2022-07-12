@@ -11,9 +11,10 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v5.4
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads///\//_})"
+        id: extract_branch
 
       - uses: actions/checkout@v2
       - uses: borales/actions-yarn@v3.0.0
@@ -25,13 +26,13 @@ jobs:
           cmd: build # will run `yarn build` command
 
       - name: create dist
-        run: mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/
+        run: mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/
 
       - name: create projects folders
-        run: mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/root-config && mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/app1 && mkdir -p ./dist/${{ steps.branch-name.outputs.current_branch }}/app2
+        run: mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/root-config && mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/app1 && mkdir -p ./dist/${{ steps.extract_branch.outputs.branch }}/app2
 
       - name: copy everything to dist
-        run: mv ./packages/root-config/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/root-config && mv ./packages/app1/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/app1 && mv ./packages/app2/dist/*.* ./dist/${{ steps.branch-name.outputs.current_branch }}/app2
+        run: mv ./packages/root-config/dist/*.* ./dist/${{ steps.extract_branch.outputs.branch }}/root-config && mv ./packages/app1/dist/*.* ./dist/${{ steps.extract_branch.outputs.branch }}/app1 && mv ./packages/app2/dist/*.* ./dist/${{ steps.extract_branch.outputs.branch }}/app2
 
       - uses: shallwefootball/s3-upload-action@master
         name: Upload S3
