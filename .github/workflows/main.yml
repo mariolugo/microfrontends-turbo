@@ -16,12 +16,6 @@ jobs:
       - name: create dist
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::516953951220:role/github
-          aws-region: us-east-1
-
       - uses: actions/checkout@v2
 
       - name: Use Node.js 16
@@ -49,8 +43,22 @@ jobs:
           source_dir: "dist"
           destination_dir: "microfrontend"
 
-      - name: After deploy
-        run: |
-          chmod +x ./after_deploy.sh
-          ./after_deploy.sh ${{steps.S3.outputs.object_key}} ${{steps.S3.outputs.object_locations}} ${{ github.event.pull_request.number }}
-        shell: bash
+      # - name: After deploy
+      #   run: |
+      #     chmod +x ./after_deploy.sh
+      #     ./after_deploy.sh ${{steps.S3.outputs.object_key}} ${{steps.S3.outputs.object_locations}} ${{ github.event.pull_request.number }}
+      #   shell: bash
+
+      - name: Create importmap.json
+        run: node ./create-importmap.js  ${{steps.S3.outputs.object_key}} ${{steps.S3.outputs.object_locations}}
+
+      - uses: hkusu/s3-upload-action@v2
+        id: upload importmap.json # specify some ID for use in subsequent steps
+        with:
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+          aws-bucket: mftest-mario
+          destination-dir: "microfrontend/${{ github.event.pull_request.number }}/"
+          file-path: "./importmap.json"
+          output-file-url: "true" # specify true
