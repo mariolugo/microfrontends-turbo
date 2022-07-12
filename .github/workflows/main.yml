@@ -15,13 +15,15 @@ jobs:
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/
 
       - uses: actions/checkout@v2
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install # will run `yarn install` command
 
-      - uses: borales/actions-yarn@v3.0.0
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
         with:
-          cmd: PR_NUMBER=${{ github.event.pull_request.number }} build # will run `yarn build` command
+          node-version: 16
+          cache: "yarn"
+
+      - run: yarn install
+      - run: yarn build
 
       - name: create projects folders
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/root-config && mkdir -p ./dist/${{ github.event.pull_request.number }}/app1 && mkdir -p ./dist/${{ github.event.pull_request.number }}/app2
