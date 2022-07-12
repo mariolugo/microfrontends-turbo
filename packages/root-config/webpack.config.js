@@ -23,6 +23,12 @@ module.exports = (webpackConfigEnv, argv) => {
           orgName,
         },
       }),
+      new webpack.DefinePlugin({
+        "typeof window": JSON.stringify("object"),
+        "process.env": {
+          PR_NUMBER: JSON.stringify(process.env.PR_NUMBER),
+        },
+      }),
     ],
   });
 };
