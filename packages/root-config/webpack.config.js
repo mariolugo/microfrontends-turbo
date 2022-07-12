@@ -25,6 +25,7 @@ module.exports = (webpackConfigEnv, argv) => {
         },
       }),
       new webpack.DefinePlugin({
+        PR_NUMBER: JSON.stringify(process.env.PR_NUMBER),
         "typeof window": JSON.stringify("object"),
         "process.env": {
           PR_NUMBER: JSON.stringify(process.env.PR_NUMBER),
