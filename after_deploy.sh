@@ -7,7 +7,7 @@
 # echo "Deployment successful"
 
 echo "Create new import map"
-node ./create-importmap.js $1 $2 $3
+node ./create-importmap.js $1 $2 
 
 echo "Upload to S3"
-aws s3 cp importmap.json //mftest-mario.s3.amazonaws.com/microfrontend/$3/importmap.json --cache-control 'public, must-revalidate, max-age=0' --acl 'public-read'
+aws s3 cp importmap.json s3://mftest-mario.s3.amazonaws.com/microfrontend/$3/importmap.json --cache-control 'public, must-revalidate, max-age=0' --acl 'public-read'
