@@ -53,7 +53,8 @@ jobs:
         run: node ./create-importmap.js  ${{steps.S3.outputs.object_key}} ${{steps.S3.outputs.object_locations}}
 
       - uses: hkusu/s3-upload-action@v2
-        id: upload importmap.json # specify some ID for use in subsequent steps
+        name: Upload importmap.json
+        id: uploadImport # specify some ID for use in subsequent steps
         with:
           aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
