@@ -8,3 +8,5 @@
 
 echo "Create new import map"
 node ./create-importmap.js $1 $2
+
+echo "Upload to S3"

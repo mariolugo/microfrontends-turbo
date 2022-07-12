@@ -21,7 +21,7 @@ jobs:
 
       - uses: borales/actions-yarn@v3.0.0
         with:
-          cmd: build # will run `yarn build` command
+          cmd: PR_NUMBER=${{ github.event.pull_request.number }} build # will run `yarn build` command
 
       - name: create projects folders
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/root-config && mkdir -p ./dist/${{ github.event.pull_request.number }}/app1 && mkdir -p ./dist/${{ github.event.pull_request.number }}/app2
