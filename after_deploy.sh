@@ -10,4 +10,4 @@ echo "Create new import map"
 node ./create-importmap.js $1 $2 
 
 echo "Upload to S3"
-aws s3 cp ./importmap.json s3://mftest-mario.s3.amazonaws.com/microfrontend/1/importmap.json --cache-control 'public, must-revalidate, max-age=0' --acl 'public-read'
+aws s3 cp ./importmap.json s3://mftest-mario.s3.amazonaws.com/microfrontend/1/importmap.json --cache-control 'public, must-revalidate, max-age=0' --acl 'public-read' --region us-east-1
