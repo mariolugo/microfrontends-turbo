@@ -16,6 +16,12 @@ jobs:
       - name: create dist
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::516953951220:role/github
+          aws-region: us-east-1
+
       - uses: actions/checkout@v2
 
       - name: Use Node.js 16
