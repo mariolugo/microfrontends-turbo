@@ -68,20 +68,6 @@ jobs:
           file-path: "./importmap.json"
           output-file-url: "true" # specify true
 
-      - name: Set Env Vars on Vercel Project
-        uses: dkershner6/vercel-set-env-action@v1
-        with:
-          token: ${{ secrets.VERCEL_TOKEN }}
-          projectName: mftest # project name in Vercel
-          envVariableKeys: ENV_VAR1,ENV_VAR2
-        env:
-          ENV_VAR1: myEnvVar1
-          TARGET_ENV_VAR1: production # comma delimited, one of [production, preview, development]
-          TYPE_ENV_VAR1: encrypted # one of [plain, encrypted]
-          ENV_VAR2: envVar2Value
-          TARGET_ENV_VAR2: preview,development
-          TYPE_ENV_VAR2: pla
-
       - name: "Deploy to Vercel"
         run: |
           prodRun=""
