@@ -75,7 +75,6 @@ jobs:
             prodRun="--prod"
           fi
 
-          npx vercel alias set pr-${{ github.event.pull_request.number }} --token ${VERCEL_TOKEN}
           npx vercel --token ${VERCEL_TOKEN} $prodRun --build-env PR_NUMBER=${{ github.event.pull_request.number }}
 
         env:
