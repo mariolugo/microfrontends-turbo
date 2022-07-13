@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Deploy applications to s34
+name: Build and deploy microfrontend
 
 # Controls when the workflow will run
 
@@ -10,15 +10,31 @@ on: [pull_request]
 jobs:
   preview:
     runs-on: ubuntu-latest
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install # will run `yarn install` command
+      - name: create dist
+        run: mkdir -p ./dist/${{ github.event.pull_request.number }}/
 
-      - uses: borales/actions-yarn@v3.0.0
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
         with:
-          cmd: build # will run `yarn build` command
+          node-version: 14
+          registry-url: https://registry.npmjs.org/
+          cache: "yarn"
+
+      - run: yarn install
+      - run: yarn build
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+
+      - name: create projects folders
+        run: mkdir -p ./dist/${{ github.event.pull_request.number }}/root-config && mkdir -p ./dist/${{ github.event.pull_request.number }}/app1 && mkdir -p ./dist/${{ github.event.pull_request.number }}/app2
+
+      - name: copy everything to dist
+        run: sudo mv ./packages/root-config/dist/*.* ./dist/${{ github.event.pull_request.number }}/root-config && sudo mv ./packages/app1/dist/*.* ./dist/${{ github.event.pull_request.number }}/app1 && sudo mv ./packages/app2/dist/*.* ./dist/${{ github.event.pull_request.number }}/app2
 
       - uses: shallwefootball/s3-upload-action@master
         name: Upload S3
@@ -26,5 +42,42 @@ jobs:
         with:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: "static"
+          aws_bucket: mftest-mario
+          source_dir: "dist"
+          destination_dir: "microfrontend"
+
+      # - name: After deploy
+      #   run: |
+      #     chmod +x ./after_deploy.sh
+      #     ./after_deploy.sh ${{steps.S3.outputs.object_key}} ${{steps.S3.outputs.object_locations}} ${{ github.event.pull_request.number }}
+      #   shell: bash
+
+      - name: Create importmap.json
+        run: node ./create-importmap.js  ${{steps.S3.outputs.object_key}} ${{steps.S3.outputs.object_locations}}
+
+      - uses: hkusu/s3-upload-action@v2
+        name: Upload importmap.json
+        id: uploadImport # specify some ID for use in subsequent steps
+        with:
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+          aws-bucket: mftest-mario
+          bucket-root: "microfrontend"
+          destination-dir: "${{ github.event.pull_request.number }}/"
+          file-path: "./importmap.json"
+          output-file-url: "true" # specify true
+
+      - name: "Deploy to Vercel"
+        run: |
+          prodRun=""
+          if [[ ${GITHUB_REF} == "refs/heads/main" ]]; then
+            prodRun="--prod"
+          fi
+
+          npx vercel --token ${VERCEL_TOKEN} $prodRun --build-env PR_NUMBER=${{ github.event.pull_request.number }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}

@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -21,6 +22,13 @@ module.exports = (webpackConfigEnv, argv) => {
         templateParameters: {
           isLocal: webpackConfigEnv && webpackConfigEnv.isLocal,
           orgName,
+        },
+      }),
+      new webpack.DefinePlugin({
+        PR_NUMBER: JSON.stringify(process.env.PR_NUMBER),
+        "typeof window": JSON.stringify("object"),
+        "process.env": {
+          PR_NUMBER: JSON.stringify(process.env.PR_NUMBER),
         },
       }),
     ],
