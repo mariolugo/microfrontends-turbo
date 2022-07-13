@@ -70,13 +70,7 @@ jobs:
 
       - name: "Deploy to Vercel"
         run: |
-          prodRun=""
-          if [[ ${GITHUB_REF} == "refs/heads/main" ]]; then
-            prodRun="--prod"
-          fi
-
-          npx vercel --token ${VERCEL_TOKEN} $prodRun --build-env PR_NUMBER=${{ github.event.pull_request.number }}
-
+          npx vercel --token ${VERCEL_TOKEN}  --build-env PR_NUMBER=${{ github.event.pull_request.number }}
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
