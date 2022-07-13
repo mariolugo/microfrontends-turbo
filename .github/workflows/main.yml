@@ -66,6 +66,7 @@ jobs:
           bucket-root: "microfrontend"
           destination-dir: "${{ github.event.pull_request.number }}/"
           file-path: "./importmap.json"
+          public: "true"
           output-file-url: "true" # specify true
 
       - name: "Deploy to Vercel"
