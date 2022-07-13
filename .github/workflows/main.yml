@@ -27,6 +27,8 @@ jobs:
 
       - run: yarn install
       - run: yarn build
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
       - name: create projects folders
         run: mkdir -p ./dist/${{ github.event.pull_request.number }}/root-config && mkdir -p ./dist/${{ github.event.pull_request.number }}/app1 && mkdir -p ./dist/${{ github.event.pull_request.number }}/app2
@@ -78,3 +80,4 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
