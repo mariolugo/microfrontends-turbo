@@ -7,7 +7,7 @@ const args = process.argv.slice(2);
 function createImportMap(parameters) {
   console.log("params", parameters);
   console.log("url1", process.env);
-  const url = "dev420.mariolugo.me";
+  const url = process.env.VERCEL_URL;
 
   const importMap = {
     imports: {
