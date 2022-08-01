@@ -27,9 +27,13 @@ function createImportMap(parameters) {
     const dictstring = JSON.stringify(importMap);
     console.log(dictstring);
 
-    fs.writeFile("./dist/importmap.json", dictstring, function (err, result) {
-      if (err) console.log("error", err);
-    });
+    fs.writeFile(
+      "./packages/root-config/dist/importmap.json",
+      dictstring,
+      function (err, result) {
+        if (err) console.log("error", err);
+      }
+    );
     // fs.writeFile(
     //   "./vercel/output/importmap.json",
     //   dictstring,
