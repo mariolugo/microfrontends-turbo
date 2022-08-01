@@ -6,7 +6,7 @@ const apps = ["root-config", "app1", "app2"];
 const args = process.argv.slice(2);
 function createImportMap(parameters) {
   console.log("params", parameters);
-  const objectKey = parameters[0];
+  const url = parameters[0];
 
   const importMap = {
     imports: {
@@ -20,9 +20,7 @@ function createImportMap(parameters) {
   };
 
   apps.forEach((app) => {
-    importMap.imports[
-      `${space}/${app}`
-    ] = `${process.env.VERCEL_URL}/mftest-${app}.js`;
+    importMap.imports[`${space}/${app}`] = `${url}/mftest-${app}.js`;
   });
 
   function createImportMapFile() {

@@ -1,7 +1,8 @@
 {
+  "version": 2,
   "github": {
     "enabled": false,
     "silent": false
   },
-  "public": true
+  "public": false
 }

@@ -23,14 +23,22 @@ jobs:
       - name: copy everything to output folder
         run: sudo mv ./packages/app1/dist/*.* ./packages/root-config/dist/ && sudo mv ./packages/app2/dist/*.* ./packages/root-config/dist/
 
-      - name: "Deploy to Vercel"
+      # - name: "Deploy to Vercel"
+      #   id: Vercel
+      #   run: |
+      #     npx vercel --token ${VERCEL_TOKEN} --public
+      #   env:
+      #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      #     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      #     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Vercel Action
         id: Vercel
-        run: |
-          npx vercel --token ${VERCEL_TOKEN} --public
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        uses: amondnet/vercel-action@v25.1.0
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
 
       - name: Create importmap.json
-        run: node ./create-importmap.js
+        run: node ./create-importmap.js {{ Vercel.outputs.preview-url }}
