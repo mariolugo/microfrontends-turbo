@@ -6,7 +6,7 @@ const apps = ["root-config", "app1", "app2"];
 const args = process.argv.slice(2);
 function createImportMap(parameters) {
   console.log("params", parameters);
-  // const url = parameters[0];
+  console.log("url1", process.env);
   const url = "dev420.mariolugo.me";
 
   const importMap = {

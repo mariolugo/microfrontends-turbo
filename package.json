@@ -10,7 +10,7 @@
   "scripts": {
     "prodstart": "yarn worspace @mftest/root-config run prod",
     "start": "turbo run start --parallel",
-    "build": "turbo run build --parallel",
+    "build": "node create-importmap.js && turbo run build --parallel",
     "root:build": "turbo run build --filter=root",
     "app1:build": "turbo run build --filter=app1",
     "app2:build": "turbo run build --filter=app2",
