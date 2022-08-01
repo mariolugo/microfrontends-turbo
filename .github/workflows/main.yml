@@ -23,9 +23,6 @@ jobs:
       - name: copy everything to output folder
         run: sudo mkdir -p ./dist && sudo mv ./packages/root-config/dist/*.* ./dist/ && sudo mv ./packages/app1/dist/*.* ./dist/ && sudo mv ./packages/app2/dist/*.* ./dist/
 
-      - name: Create importmap.json
-        run: sudo node ./create-importmap.js
-
       - name: "Deploy to Vercel"
         id: Vercel
         run: |
@@ -34,6 +31,9 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Create importmap.json
+        run: sudo node ./create-importmap.js
 
       # - name: Vercel Action
       #   id: Vercel
