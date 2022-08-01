@@ -8,9 +8,6 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - name: create public
-        run: mkdir -p ./public
-
       - uses: actions/checkout@v2
 
       - name: Use Node.js 14
@@ -24,7 +21,7 @@ jobs:
       - run: yarn build
 
       - name: copy everything to public
-        run: sudo mv ./packages/root-config/dist/*.* ./public && sudo mv ./packages/app1/dist/*.* ./public && sudo mv ./packages/app2/dist/*.* ./public
+        run: sudo mkdir -p ./public && sudo mv ./packages/root-config/dist/*.* ./public && sudo mv ./packages/app1/dist/*.* ./public && sudo mv ./packages/app2/dist/*.* ./public
 
       - name: "Deploy to Vercel"
         id: Vercel
