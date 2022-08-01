@@ -41,4 +41,4 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
 
       - name: Create importmap.json
-        run: node ./create-importmap.js {{ Vercel.outputs.preview-url }}
+        run: node ./create-importmap.js ${{steps.Vercel.outputs.preview-url}}

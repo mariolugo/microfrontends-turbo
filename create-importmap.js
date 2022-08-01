@@ -34,6 +34,13 @@ function createImportMap(parameters) {
         if (err) console.log("error", err);
       }
     );
+    fs.writeFile(
+      "./vercel/output/importmap.json",
+      dictstring,
+      function (err, result) {
+        if (err) console.log("error", err);
+      }
+    );
   }
 
   createImportMapFile();
