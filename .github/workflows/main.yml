@@ -7,8 +7,6 @@ on: [pull_request]
 jobs:
   preview:
     runs-on: ubuntu-latest
-    env:
-      PR_NUMBER: ${{ github.event.pull_request.number }}
     steps:
       - name: create public
         run: mkdir -p ./public
@@ -24,21 +22,18 @@ jobs:
 
       - run: yarn install
       - run: yarn build
-        env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
 
-      - name: copy everything to dist
-        run: sudo mv ./packages/root-config/dist/*.* ./public/ && sudo mv ./packages/app1/dist/*.* ./public/ && sudo mv ./packages/app2/dist/*.* ./public/
+      - name: copy everything to public
+        run: sudo mv ./packages/root-config/dist/*.* ./public && sudo mv ./packages/app1/dist/*.* ./public && sudo mv ./packages/app2/dist/*.* ./public
 
       - name: "Deploy to Vercel"
         id: Vercel
         run: |
-          npx vercel --token ${VERCEL_TOKEN}  --build-env PR_NUMBER=${{ github.event.pull_request.number }}
+          npx vercel --token ${VERCEL_TOKEN}
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
 
       - name: Create importmap.json
         run: node ./create-importmap.js

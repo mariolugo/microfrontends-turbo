@@ -25,10 +25,10 @@ module.exports = (webpackConfigEnv, argv) => {
         },
       }),
       new webpack.DefinePlugin({
-        PR_NUMBER: JSON.stringify(process.env.PR_NUMBER),
+        VERCEL_URL: JSON.stringify(process.env.PR_NVERCEL_URLUMBER),
         "typeof window": JSON.stringify("object"),
         "process.env": {
-          PR_NUMBER: JSON.stringify(process.env.PR_NUMBER),
+          VERCEL_URL: JSON.stringify(process.env.VERCEL_URL),
         },
       }),
     ],
