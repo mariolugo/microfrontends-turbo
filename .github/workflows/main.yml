@@ -20,13 +20,13 @@ jobs:
       - run: yarn install
       - run: yarn build
 
-      - name: copy everything to public
-        run: sudo mkdir -p ./public && sudo mv ./packages/root-config/dist/*.* ./public && sudo mv ./packages/app1/dist/*.* ./public && sudo mv ./packages/app2/dist/*.* ./public
+      - name: copy everything to output folder
+        run: sudo mv ./packages/app1/dist/*.* ./packages/root-config/dist/ && sudo mv ./packages/app2/dist/*.* ./packages/root-config/dist/
 
       - name: "Deploy to Vercel"
         id: Vercel
         run: |
-          npx vercel --token ${VERCEL_TOKEN}
+          npx vercel --token ${VERCEL_TOKEN} --public
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
