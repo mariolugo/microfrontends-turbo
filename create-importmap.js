@@ -20,27 +20,23 @@ function createImportMap(parameters) {
   };
 
   apps.forEach((app) => {
-    importMap.imports[`${space}/${app}`] = `${url}/mftest-${app}.js`;
+    importMap.imports[`${space}/${app}`] = `//mftest-${app}.js`;
   });
 
   function createImportMapFile() {
     const dictstring = JSON.stringify(importMap);
     console.log(dictstring);
 
-    fs.writeFile(
-      "./packages/root-config/dist/importmap.json",
-      dictstring,
-      function (err, result) {
-        if (err) console.log("error", err);
-      }
-    );
-    fs.writeFile(
-      "./vercel/output/importmap.json",
-      dictstring,
-      function (err, result) {
-        if (err) console.log("error", err);
-      }
-    );
+    fs.writeFile("./dist/importmap.json", dictstring, function (err, result) {
+      if (err) console.log("error", err);
+    });
+    // fs.writeFile(
+    //   "./vercel/output/importmap.json",
+    //   dictstring,
+    //   function (err, result) {
+    //     if (err) console.log("error", err);
+    //   }
+    // );
   }
 
   createImportMapFile();
