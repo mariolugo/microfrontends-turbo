@@ -32,8 +32,8 @@ jobs:
       #     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       #     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
-      - name: Create importmap.json
-        run: node ./create-importmap.js
+      # - name: Create importmap.json
+      #   run: node ./create-importmap.js
 
       - name: Vercel Action
         id: Vercel
