@@ -25,10 +25,9 @@ function createImportMap(parameters) {
   };
 
   apps.forEach((app) => {
-    const map = jsObjectLocations.find((location) => location.includes(app));
-    if (map) {
-      importMap.imports[`${space}/${app}`] = map;
-    }
+    importMap.imports[
+      `${space}/${app}`
+    ] = `${process.env.VERCEL_URL}/mftest-${app}.js`;
   });
 
   function createImportMapFile() {
