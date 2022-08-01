@@ -20,7 +20,7 @@ function createImportMap(parameters) {
   };
 
   apps.forEach((app) => {
-    importMap.imports[`${space}/${app}`] = `//mftest-${app}.js`;
+    importMap.imports[`${space}/${app}`] = `https://${url}/mftest-${app}.js`;
   });
 
   function createImportMapFile() {
