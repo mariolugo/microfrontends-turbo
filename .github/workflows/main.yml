@@ -32,6 +32,9 @@ jobs:
       #     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       #     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
+      - name: Create importmap.json
+        run: node ./create-importmap.js
+
       - name: Vercel Action
         id: Vercel
         uses: amondnet/vercel-action@v25.1.0
@@ -39,6 +42,4 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
-
-      - name: Create importmap.json
-        run: node ./create-importmap.js ${{steps.Vercel.outputs.preview-url}}
+          alias-domains: dev420.mariolugo.me
