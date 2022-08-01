@@ -7,11 +7,6 @@ const args = process.argv.slice(2);
 function createImportMap(parameters) {
   console.log("params", parameters);
   const objectKey = parameters[0];
-  const objectLocations = parameters[1].replace(/\[|\]/g, "").split(",");
-
-  const jsObjectLocations = objectLocations.filter(
-    (env) => env.includes(".js") && !env.includes(".js.")
-  );
 
   const importMap = {
     imports: {
@@ -34,9 +29,13 @@ function createImportMap(parameters) {
     const dictstring = JSON.stringify(importMap);
     console.log(dictstring);
 
-    fs.writeFile("importmap.json", dictstring, function (err, result) {
-      if (err) console.log("error", err);
-    });
+    fs.writeFile(
+      "./packages/root-config/dist/importmap.json",
+      dictstring,
+      function (err, result) {
+        if (err) console.log("error", err);
+      }
+    );
   }
 
   createImportMapFile();
